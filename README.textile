@@ -1,0 +1,22 @@
+h1. filter_attr Rails Plugin
+
+Provides tools to securely manage mass assignment in Rails models.
+
+h2. Examples:
+
+* Working with models:
+
+<pre>
+# everything inside the block will honor attr_accesible
+User.with_attr_accessible(:name, :email) do
+  u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
+  # password was not initialized
+  puts "Password assignment protected?: #{u.password.nil?}"
+end
+
+u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
+# password was initialized
+puts "Password assignment protected?: #{u.password.nil?}"
+</pre>
+
+* Working with controllers
