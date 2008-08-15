@@ -6,7 +6,7 @@ h2. Examples:
 
 * Working with models:
 
-<pre>
+<pre><code class="ruby">
 # everything inside the block will honor attr_accesible
 User.with_attr_accessible(:name, :email) do
   u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
@@ -17,6 +17,7 @@ end
 u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
 # password was initialized
 puts "Password assignment protected?: #{u.password.nil?}"
-</pre>
+</code></pre>
+
 
 * Working with controllers
