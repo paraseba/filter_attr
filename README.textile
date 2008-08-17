@@ -2,22 +2,36 @@ h1. filter_attr Rails Plugin
 
 Provides tools to securely manage mass assignment in Rails models.
 
-h2. Examples:
+h2. Usage:
 
 * Working with models:
 
 <pre><code class="ruby">
-# everything inside the block will honor attr_accesible
-User.with_attr_accessible(:name, :email) do
-  u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
-  # password was not initialized
-  puts "Password assignment protected?: #{u.password.nil?}"
-end
+  # everything inside the block will honor attr_accessible
+  User.with_attr_accessible(:name, :email) do
+    u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
+    # password was not initialized
+    puts "Password assignment protected?: #{u.password.nil?}"
+  end
 
-u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
-# password was initialized
-puts "Password assignment protected?: #{u.password.nil?}"
+  # outside the block, attr_accessible is no longer used
+
+  u = User.new(:name => 'John', :email => 'johny@johnyland.com', :password => 'mypass')
+  # password was initialized
+  puts "Password assignment protected?: #{u.password.nil?}"
 </code></pre>
 
+This will set @name@ and @email@ as the only accessible attributes of the class User, for the duration of the block.
 
-* Working with controllers
+* Working in controllers
+
+<pre><code class="ruby">
+  before_filter :filter_params!, :template => [:preview, {:user => [:email, :name]}, {:project => [:name]}], :only => :update
+</code></pre>
+
+This will filter parameters for action @update@, leaving only @:preview@, @:user@ and @:project@ keys. If under the @:user@
+key of the parameters @Hash@, another @Hash@ is found, its keys will be filtered leaving just @:email@ and @:name@, same thing
+will happend with @:project@ key.
+
+Copyright (c) 2008 Sebastián Galkin, released under the MIT license
+
