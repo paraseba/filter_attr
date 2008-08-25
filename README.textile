@@ -25,6 +25,8 @@ This will set @name@ and @email@ as the only accessible attributes of the class 
 
 * Working in controllers
 
+In the body of your controller
+
 <pre><code class="ruby">
   filter_params :allow => [:preview, {:user => [:email, :name]}, {:project => [:name]}], :only => :update
 </code></pre>
@@ -32,6 +34,15 @@ This will set @name@ and @email@ as the only accessible attributes of the class 
 This will filter parameters for action @update@, leaving only @:preview@, @:user@ and @:project@ keys. If under the @:user@
 key of the parameters @Hash@, another @Hash@ is found, its keys will be filtered leaving just @:email@ and @:name@, same thing
 will happend with @:project@ key. The structure of the @:allow@ parameter, is similar to the :include key in ActiveRecord::Base.find.
+
+You could get a similar effect, but filtering inside the action, doing:
+
+<pre><code class="ruby">
+  def update
+    filter_parameters_map(params, [:preview, {:user => [:email, :name]}, {:project => [:name]}])
+    ...
+  end
+</code></pre>
 
 Copyright (c) 2008 Sebastián Galkin, released under the MIT license
 
